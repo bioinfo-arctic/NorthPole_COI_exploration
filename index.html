@@ -126,7 +126,8 @@ function appendBar(parent,rows,label){
   if(hex.startsWith('#')){const rgb=hex.slice(1).match(/../g).map(part=>parseInt(part,16));if(.2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]<130)segment.style.color='#fff';}
   segment.setAttribute('aria-label',`${label}, ${row.category}: ${row.percent.toFixed(2)} percent, ${fmt(row.reads)} reads`);
   segment.title=`${label} / ${row.category}: ${row.percent.toFixed(2)}% (${fmt(row.reads)} reads)`;
-  if(mode==='combine'&&row.percent>=9)segment.textContent=row.percent.toFixed(1)+'%';
+  // Label readable segments in sample comparisons and technical-library bars.
+  if(row.percent>=9)segment.textContent=row.percent.toFixed(1)+'%';
   const tip=`<strong>${escapeHTML(label)}</strong>${escapeHTML(row.category)}<br>${row.percent.toFixed(2)}% · ${fmt(row.reads)} reads`;
   segment.addEventListener('pointerenter',event=>showTip(event,tip));segment.addEventListener('pointermove',moveTip);segment.addEventListener('pointerleave',hideTip);
   segment.addEventListener('focus',()=>{const rect=segment.getBoundingClientRect();showTip({clientX:rect.left,clientY:rect.bottom},tip);});segment.addEventListener('blur',hideTip);
